@@ -77,12 +77,6 @@ divElement.classList.add("quiz-answer-btns-wrapper");
 
 const slideOutIn = document.querySelector(".slide-out-in");
 
-console.log(slideOutIn);
-console.log(sectionElement);
-console.log(imgElement);
-console.log(pElement);
-console.log(divElement);
-
 let randomNumberOfDataArrLength = Math.floor(Math.random() * data.length);
 
 const selectAnswer = () => {
@@ -92,9 +86,12 @@ const selectAnswer = () => {
       const rightAnswer = getAnswer(randomNumberOfDataArrLength);
       const guessedAnswer = buttonElement.textContent;
       if (rightAnswer.toString() === guessedAnswer) {
-        console.log("yes");
+        buttonElement.style.backgroundColor = "green";
       } else {
-        console.log("no");
+        buttonElement.style.backgroundColor = "red";
+      }
+      for (let i = 0; i < answerBtnElements.length; i++) {
+        answerBtnElements[i].disabled = true;
       }
 
       setTimeout(() => {
@@ -115,17 +112,38 @@ const selectAnswer = () => {
             sectionElement.style.visibility = "visible";
             slideOutIn.style.left = 0;
             slideOutIn.style.right = 0;
-          }, 1000);
-        }, 1000);
+          }, 500);
+        }, 800);
       }, 2000);
     });
   });
 };
 
 const showQuestionCard = (randomIndexNumberOfDataArrLength) => {
-  const randomNumOfIndex = randomIndexNumberOfDataArrLength;
-  indexesOfAnsweredQuestions.push(randomNumOfIndex);
+  let randomNumOfIndex = randomIndexNumberOfDataArrLength;
+  console.log(randomNumOfIndex);
   console.log(indexesOfAnsweredQuestions);
+  console.log(indexesOfAnsweredQuestions.includes(randomNumOfIndex));
+  while (
+    indexesOfAnsweredQuestions.includes(randomNumOfIndex) &&
+    indexesOfAnsweredQuestions.length !== data.length
+  ) {
+    randomNumOfIndex = Math.floor(Math.random() * data.length);
+    console.log("Neue Randomzahl", randomNumOfIndex);
+  }
+  if (indexesOfAnsweredQuestions.length === data.length) {
+    divElement.innerHTML = "";
+    imgElement.innerHTML = "";
+    const paragraph = document.createElement("p");
+    paragraph.textContent =
+      "Congratulations you have reached the end of the game";
+    paragraph.classList.add("success-message");
+    sectionElement.appendChild(paragraph);
+    return;
+  } else {
+    indexesOfAnsweredQuestions.push(randomNumOfIndex);
+  }
+
   getImageURL(randomNumOfIndex);
   getQuestion(randomNumOfIndex);
   getChoice(randomNumOfIndex);
