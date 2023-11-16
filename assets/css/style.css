@@ -1,0 +1,122 @@
+/* =================================== */
+/* DESIGN SYSTEM */
+/* =================================== */
+/*
+
+! --- 01 TYPOGRAPHY SYSTEM
+
+* Font size system(px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+* Font weights
+Default: 400
+
+* Line heights
+Default: 1
+
+! --- 02 COLORS
+
+- Primary: Primäre Farbe 
+- Tints (Farbtöne):
+- Shades (Schattierungen):
+- Accents:
+- Greys: #555 Beliebte Grau Töne
+
+! --- 05 SHADOWS
+
+! --- 06 BORDER-RADIUS
+
+! --- 07 WHITESPACE
+
+* Spacing System (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+*/
+
+/* =================================== */
+/* FONTS */
+/* =================================== */
+
+@font-face {
+  font-family: "";
+  src: url();
+}
+
+/* =================================== */
+/* RESET STYLES */
+/* =================================== */
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+/* ------------------------ */
+/* GENERAL STYLES */
+/* ------------------------ */
+
+html {
+  /* 10px / 16px * 100% = 62,5% */
+  /* Percentage of users browser font-size setting */
+  font-size: 62.5%;
+}
+
+body {
+  font-family: sans-serif;
+  line-height: 1;
+  font-weight: 400;
+  font-size: 1.6rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background-color: #1971c2;
+  height: 100vh;
+}
+
+/* ------------------------ */
+/* COMPONENT STYLES */
+/* ------------------------ */
+
+.section-quiz {
+  max-width: 144rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 100%;
+}
+
+.quiz-image {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.quiz-question {
+}
+
+.quiz-answer-btns-wrapper {
+}
+
+.quiz-answer-btn {
+}
+
+.slide-out-in {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: left 0.5s linear, right 0.5s linear;
+}
+
+/* .slide-in-from-right {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  right: -100%;
+  bottom: 0;
+  transition: left 0.5s linear, right 0.5s linear;
+} */

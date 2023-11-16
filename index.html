@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+  <section id="content"></section>
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
+
+<!-- Anforderungen:
+Erstellen eines Quiz
+  - Beim klick auf eine Antwort soll diese farblich markiert werden. 
+  - Wenn die Antwort richtig ist soll diese in "grüner" Farbe hervorgehoben werden, ansonsten "rot"
+  - Wenn eine Antwort getätigt wurde darf auch keine weitere angecklickt werden können -> auf disabled setzen
+  - Jeder Abschnitt soll unterschiedliche Klassen erhalten
+  - für jede erfolgreich beantwortete Frage soll es Punkte /Geld geben die zusammengerechnet und am ende als Ergebnis angezeigt werden -- Siehe "Wer wird Millionär"
+  - bei drei falsch beantworteten Fragen soll das Spiel sofort beendet werden und die erreichten Punkte / Geld soll wieder auf 0 fallen
+  - die letzte Frage beendet das spiel. Wenn nicht drei Falsche Antworten gemacht wurden ist das Spiel gewonnen, ansonsten verloren, auch wenn die letzte Frage beantwortet wurde.
+  - Ist das spiel beendet wird ein modal angezeigt. Entweder mit einer Erfolgsmeldung und den erreichten Punkten oder Geld, oder einer Lose Meldung und 0 Punkten oder Geld. Außerdem soll gefragt werden ob man erneut spielen möchte. Dazu gibt es zwei Buttons, einen für "nochmal spielen" und "spiel beenden".
+    - bei erneut spielen wird das spiel auf den Anfangszustand zurück gesetzt, beim beenden wird das modal einfach verlassen
+  - auch ein reset button soll anf der Seite angezeigt werden um ein neues spiel zu starten. -> reset
+- Auf dem Bildschirm wird immer nur eine Frage mit vier Wahlmöglichkeiten angezeigt, oder Ja / Nein Fragen.      - Jedesmal wenn eine Frage beantwortet wurde verschwindet dies Frage und nach links und von rechts taucht die nächste Frage auf, dabei werden die Punkte berechnet oder die Fehlversucheruntergezählt bis die 0 erreicht ist.
+- Fragen sollen Zufällig gestellt werden. Wenn eine Frage gestellt und beantwortet wurde, dann wird sie aus dem Array heraus genommen
+
+  Bonus:
+  - Es soll auch eine 50 / 50 chance zum auswählen geben.
+*/
+
+/* 
+Aufgaben:
+
+- Zugreifen auf das Section Element
+- Erstellen einens Image Elements
+- Erstellen eines p Tags
+- Erstellen eines div Elements
+- Erstellen eines button Tags - so oft wie choices vorhanden sind
+- buttons in das div Element schieben mit append
+
+- Attribute für img setzen mit setAttribute und image anzeigen lassen
+- Frage anzeigen lassen
+- Antwortmöglichkeiten anzeigen lassen
+- Klassennamen für die Elemente vergeben mit classList
+
+
+- Erstellen einer Function die die HTML Struktur der Ausgabe beinhaltet
+- Erstellen einer Function die das gesamte Array durchläuft, zufällig ein einziges Objekt daraus in HTML ausgib und die Ausgabe beim klick auf eine der Antwortmöglichkeiten leert und diese mit der neuen Frage füllt.
+- erstellen einer setAnswer() function die bei klick auf eine Auswahl diese entweder rot färbt für falsche Antwort oder grün für richtige antwort.
+- erstellen einer function countScore() function die den #score oder das Geld hochrechnet
+- erstellen einer function setDownFailedAttempts() die dei Fehlversuche herabsetzt. 
+- erstellen eines showResultModal() welches entweder die Erfolgsmeldung anzeigt oder die Losemeldung
+erstellen eines closeResultModal() um das Modal wieder zu schließen. 
+- overlay hidden hinzufügen oder entfernen.
+- eine reset function erstellen die das spiel wieder zurücksetzt. -->
