@@ -68,6 +68,7 @@ const imgElement = document.createElement("img");
 const pElement = document.createElement("p");
 const divElement = document.createElement("div");
 const indexesOfAnsweredQuestions = [];
+let score = 0;
 
 sectionElement.classList.add("section-quiz");
 sectionElement.classList.add("slide-out-in");
@@ -77,76 +78,88 @@ divElement.classList.add("quiz-answer-btns-wrapper");
 
 const slideOutIn = document.querySelector(".slide-out-in");
 
-let randomNumberOfDataArrLength = Math.floor(Math.random() * data.length);
+const selectAnswer = (randomIndex) => {
+  let randomNum = randomIndex;
 
-const selectAnswer = () => {
   const answerBtnElements = document.querySelectorAll(".quiz-answer-btn");
   answerBtnElements.forEach((buttonElement) => {
-    buttonElement.addEventListener("click", () => {
-      const rightAnswer = getAnswer(randomNumberOfDataArrLength);
-      const guessedAnswer = buttonElement.textContent;
-      if (rightAnswer.toString() === guessedAnswer) {
-        buttonElement.style.backgroundColor = "green";
-      } else {
-        buttonElement.style.backgroundColor = "red";
-      }
-      for (let i = 0; i < answerBtnElements.length; i++) {
-        answerBtnElements[i].disabled = true;
-      }
+    if (
+      !buttonElement.hasAttribute("data-listener-added") &&
+      randomNum !== undefined
+    ) {
+      buttonElement.setAttribute("data-listener-added", "true");
+      buttonElement.addEventListener("click", () => {
+        const rightAnswer = getAnswer(randomIndex).toString();
+        const guessedAnswer = buttonElement.textContent.trim();
 
-      setTimeout(() => {
-        slideOutIn.style.left = "-100%";
-        slideOutIn.style.right = "100%";
+        if (rightAnswer === guessedAnswer) {
+          buttonElement.style.backgroundColor = "#51cf66";
+          score++;
+        } else {
+          buttonElement.style.backgroundColor = "#ff6b6b";
+        }
 
-        sectionElement.innerHTML = "";
-        divElement.innerHTML = "";
-        randomNumberOfDataArrLength = Math.floor(Math.random() * data.length);
-        showQuestionCard(randomNumberOfDataArrLength);
+        for (let i = 0; i < answerBtnElements.length; i++) {
+          answerBtnElements[i].disabled = true;
+        }
 
         setTimeout(() => {
-          slideOutIn.style.left = "100%";
-          slideOutIn.style.right = "-100%";
-          sectionElement.style.visibility = "hidden";
+          slideOutIn.style.left = "-100%";
+          slideOutIn.style.right = "100%";
+
+          sectionElement.innerHTML = "";
+          divElement.innerHTML = "";
+
+          showQuestionCard();
 
           setTimeout(() => {
-            sectionElement.style.visibility = "visible";
-            slideOutIn.style.left = 0;
-            slideOutIn.style.right = 0;
-          }, 500);
-        }, 800);
-      }, 2000);
-    });
+            slideOutIn.style.left = "100%";
+            slideOutIn.style.right = "-100%";
+            sectionElement.style.visibility = "hidden";
+
+            setTimeout(() => {
+              sectionElement.style.visibility = "visible";
+              slideOutIn.style.left = 0;
+              slideOutIn.style.right = 0;
+            }, 500);
+          }, 800);
+        }, 2000);
+      });
+    }
   });
 };
 
-const showQuestionCard = (randomIndexNumberOfDataArrLength) => {
-  let randomNumOfIndex = randomIndexNumberOfDataArrLength;
-  console.log(randomNumOfIndex);
-  console.log(indexesOfAnsweredQuestions);
-  console.log(indexesOfAnsweredQuestions.includes(randomNumOfIndex));
-  while (
-    indexesOfAnsweredQuestions.includes(randomNumOfIndex) &&
-    indexesOfAnsweredQuestions.length !== data.length
-  ) {
-    randomNumOfIndex = Math.floor(Math.random() * data.length);
-    console.log("Neue Randomzahl", randomNumOfIndex);
-  }
+const showQuestionCard = () => {
   if (indexesOfAnsweredQuestions.length === data.length) {
-    divElement.innerHTML = "";
-    imgElement.innerHTML = "";
-    const paragraph = document.createElement("p");
-    paragraph.textContent =
-      "Congratulations you have reached the end of the game";
-    paragraph.classList.add("success-message");
-    sectionElement.appendChild(paragraph);
+    endQuiz();
     return;
-  } else {
-    indexesOfAnsweredQuestions.push(randomNumOfIndex);
   }
 
-  getImageURL(randomNumOfIndex);
-  getQuestion(randomNumOfIndex);
-  getChoice(randomNumOfIndex);
+  let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * data.length);
+  } while (indexesOfAnsweredQuestions.includes(randomIndex));
+
+  indexesOfAnsweredQuestions.push(randomIndex);
+  displayQuestionCard(randomIndex);
+};
+
+const endQuiz = () => {
+  divElement.innerHTML = "";
+  imgElement.innerHTML = "";
+  const paragraph = document.createElement("p");
+  paragraph.innerHTML =
+    "Congratulations, you have reached the end of the game.";
+  paragraph.innerHTML += `<br> <span class="score">Your Score: ${score} Point/s</span>`;
+  paragraph.classList.add("success-message");
+  sectionElement.appendChild(paragraph);
+};
+
+const displayQuestionCard = (index) => {
+  getImageURL(index);
+  getQuestion(index);
+  getChoice(index);
+  selectAnswer(index);
 };
 
 const getImageURL = (imgIndexParam) => {
@@ -184,4 +197,4 @@ const getAnswer = (answerIndexParam) => {
   return data[answerIndex].answer;
 };
 
-showQuestionCard(randomNumberOfDataArrLength);
+showQuestionCard();
