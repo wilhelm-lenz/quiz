@@ -78,25 +78,21 @@ divElement.classList.add("quiz-answer-btns-wrapper");
 
 const slideOutIn = document.querySelector(".slide-out-in");
 
-const selectAnswer = (randomIndex) => {
+const onSelectAnswer = (randomIndex) => {
   let randomNum = randomIndex;
-
   const answerBtnElements = document.querySelectorAll(".quiz-answer-btn");
+
   answerBtnElements.forEach((buttonElement) => {
-    if (
-      !buttonElement.hasAttribute("data-listener-added") &&
-      randomNum !== undefined
-    ) {
-      buttonElement.setAttribute("data-listener-added", "true");
+    if (randomNum !== undefined) {
       buttonElement.addEventListener("click", () => {
-        const rightAnswer = getAnswer(randomIndex).toString();
+        const rightAnswer = getAnswerFromData(randomIndex).toString();
         const guessedAnswer = buttonElement.textContent.trim();
 
         if (rightAnswer === guessedAnswer) {
           buttonElement.style.backgroundColor = "#51cf66";
           score++;
         } else {
-          buttonElement.style.backgroundColor = "#ff6b6b";
+          buttonElement.style.backgroundColor = "#f03e3e";
         }
 
         for (let i = 0; i < answerBtnElements.length; i++) {
@@ -106,10 +102,10 @@ const selectAnswer = (randomIndex) => {
         setTimeout(() => {
           slideOutIn.style.left = "-100%";
           slideOutIn.style.right = "100%";
-
           sectionElement.innerHTML = "";
           divElement.innerHTML = "";
 
+          // shows the question cards after the first call on click of a Button
           showQuestionCard();
 
           setTimeout(() => {
@@ -131,7 +127,7 @@ const selectAnswer = (randomIndex) => {
 
 const showQuestionCard = () => {
   if (indexesOfAnsweredQuestions.length === data.length) {
-    endQuiz();
+    exitQuiz();
     return;
   }
 
@@ -144,7 +140,7 @@ const showQuestionCard = () => {
   displayQuestionCard(randomIndex);
 };
 
-const endQuiz = () => {
+const exitQuiz = () => {
   divElement.innerHTML = "";
   imgElement.innerHTML = "";
   const paragraph = document.createElement("p");
@@ -156,13 +152,13 @@ const endQuiz = () => {
 };
 
 const displayQuestionCard = (index) => {
-  getImageURL(index);
-  getQuestion(index);
-  getChoice(index);
-  selectAnswer(index);
+  getImageURLFromData(index);
+  getQuestionFromData(index);
+  getChoiceFromData(index);
+  onSelectAnswer(index);
 };
 
-const getImageURL = (imgIndexParam) => {
+const getImageURLFromData = (imgIndexParam) => {
   const imgIndex = imgIndexParam;
   imgElement.setAttribute("src", data[imgIndex].url);
   imgElement.setAttribute(
@@ -172,13 +168,13 @@ const getImageURL = (imgIndexParam) => {
   sectionElement.appendChild(imgElement);
 };
 
-const getQuestion = (questionIndexParam) => {
+const getQuestionFromData = (questionIndexParam) => {
   const questionIndex = questionIndexParam;
   pElement.textContent = data[questionIndex].question;
   sectionElement.appendChild(pElement);
 };
 
-const getChoice = (choiceIndexParam) => {
+const getChoiceFromData = (choiceIndexParam) => {
   const choiceIndex = choiceIndexParam;
   sectionElement.appendChild(divElement);
   divElement.innerHTML = "";
@@ -189,12 +185,13 @@ const getChoice = (choiceIndexParam) => {
     buttonElement.textContent += `${data[choiceIndex].choice[i]}`;
     divElement.appendChild(buttonElement);
   }
-  selectAnswer();
+  onSelectAnswer();
 };
 
-const getAnswer = (answerIndexParam) => {
+const getAnswerFromData = (answerIndexParam) => {
   const answerIndex = answerIndexParam;
   return data[answerIndex].answer;
 };
 
+// first call of Cards
 showQuestionCard();
