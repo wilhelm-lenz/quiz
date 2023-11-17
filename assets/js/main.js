@@ -78,6 +78,87 @@ divElement.classList.add("quiz-answer-btns-wrapper");
 
 const slideOutIn = document.querySelector(".slide-out-in");
 
+const showQuestionCard = () => {
+  // First check whether all questions have already been answered
+  if (indexesOfAnsweredQuestions.length === data.length) {
+    exitQuiz();
+    return;
+  }
+
+  let randomIndex;
+
+  // As long as the generated index has already been used, generate a new one
+  do {
+    randomIndex = Math.floor(Math.random() * data.length);
+  } while (indexesOfAnsweredQuestions.includes(randomIndex));
+
+  // Add the new index to the questions already answered
+  indexesOfAnsweredQuestions.push(randomIndex);
+
+  // Display the question card for the new index
+  displayQuestionCard(randomIndex);
+};
+
+const exitQuiz = () => {
+  divElement.innerHTML = "";
+  imgElement.innerHTML = "";
+  const paragraph = document.createElement("p");
+  paragraph.innerHTML =
+    "Congratulations, you have reached the end of the game.";
+  paragraph.innerHTML += `<br> <span class="score">Your Score: ${score} Point/s</span>`;
+  paragraph.classList.add("success-message");
+  appendElementsToHTML(sectionElement, paragraph);
+};
+
+const displayQuestionCard = (index) => {
+  getImageURLFromData(index);
+  getQuestionFromData(index);
+  getChoiceFromData(index);
+  onSelectAnswer(index); // Updated to pass the index
+};
+
+const appendElementsToHTML = (htmlParent, htmlChild) => {
+  htmlParent.appendChild(htmlChild);
+};
+
+const getImageURLFromData = (imgIndexParam) => {
+  const imgIndex = imgIndexParam;
+  imgElement.setAttribute("src", data[imgIndex].url);
+  imgElement.setAttribute(
+    "alt",
+    `Quiz Image for data Index Number ${imgIndex}`
+  );
+  appendElementsToHTML(sectionElement, imgElement);
+};
+
+const getQuestionFromData = (questionIndexParam) => {
+  const questionIndex = questionIndexParam;
+  pElement.textContent = data[questionIndex].question;
+  appendElementsToHTML(sectionElement, pElement);
+};
+
+const getChoiceFromData = (choiceIndexParam) => {
+  const choiceIndex = choiceIndexParam;
+  appendElementsToHTML(sectionElement, divElement);
+
+  for (let i = 0; i < data[choiceIndex].choice.length; i++) {
+    const buttonElement = document.createElement("button");
+    buttonElement.classList.add("quiz-answer-btn");
+    buttonElement.textContent += `${data[choiceIndex].choice[i]}`;
+    appendElementsToHTML(divElement, buttonElement);
+  }
+};
+
+const getAnswerFromData = (answerIndexParam) => {
+  const answerIndex = answerIndexParam;
+  return data[answerIndex].answer;
+};
+
+const setSlideMovement = (leftPos, rightPos) => {
+  slideOutIn.style.left = leftPos;
+  slideOutIn.style.right = rightPos;
+};
+
 const onSelectAnswer = (randomIndex) => {
   let randomNum = randomIndex;
   const answerBtnElements = document.querySelectorAll(".quiz-answer-btn");
@@ -100,8 +181,7 @@ const onSelectAnswer = (randomIndex) => {
         }
 
         setTimeout(() => {
-          slideOutIn.style.left = "-100%";
-          slideOutIn.style.right = "100%";
+          setSlideMovement("-100%", "100%");
           sectionElement.innerHTML = "";
           divElement.innerHTML = "";
 
@@ -109,88 +189,18 @@ const onSelectAnswer = (randomIndex) => {
           showQuestionCard();
 
           setTimeout(() => {
-            slideOutIn.style.left = "100%";
-            slideOutIn.style.right = "-100%";
+            setSlideMovement("100%", "-100%");
             sectionElement.style.visibility = "hidden";
 
             setTimeout(() => {
               sectionElement.style.visibility = "visible";
-              slideOutIn.style.left = 0;
-              slideOutIn.style.right = 0;
+              setSlideMovement(0, 0);
             }, 500);
           }, 800);
         }, 2000);
       });
     }
   });
-};
-
-const showQuestionCard = () => {
-  if (indexesOfAnsweredQuestions.length === data.length) {
-    exitQuiz();
-    return;
-  }
-
-  let randomIndex;
-  do {
-    randomIndex = Math.floor(Math.random() * data.length);
-  } while (indexesOfAnsweredQuestions.includes(randomIndex));
-
-  indexesOfAnsweredQuestions.push(randomIndex);
-  displayQuestionCard(randomIndex);
-};
-
-const exitQuiz = () => {
-  divElement.innerHTML = "";
-  imgElement.innerHTML = "";
-  const paragraph = document.createElement("p");
-  paragraph.innerHTML =
-    "Congratulations, you have reached the end of the game.";
-  paragraph.innerHTML += `<br> <span class="score">Your Score: ${score} Point/s</span>`;
-  paragraph.classList.add("success-message");
-  sectionElement.appendChild(paragraph);
-};
-
-const displayQuestionCard = (index) => {
-  getImageURLFromData(index);
-  getQuestionFromData(index);
-  getChoiceFromData(index);
-  onSelectAnswer(index);
-};
-
-const getImageURLFromData = (imgIndexParam) => {
-  const imgIndex = imgIndexParam;
-  imgElement.setAttribute("src", data[imgIndex].url);
-  imgElement.setAttribute(
-    "alt",
-    `Quiz Image for data Index Number ${imgIndex}`
-  );
-  sectionElement.appendChild(imgElement);
-};
-
-const getQuestionFromData = (questionIndexParam) => {
-  const questionIndex = questionIndexParam;
-  pElement.textContent = data[questionIndex].question;
-  sectionElement.appendChild(pElement);
-};
-
-const getChoiceFromData = (choiceIndexParam) => {
-  const choiceIndex = choiceIndexParam;
-  sectionElement.appendChild(divElement);
-  divElement.innerHTML = "";
-
-  for (let i = 0; i < data[choiceIndex].choice.length; i++) {
-    const buttonElement = document.createElement("button");
-    buttonElement.classList.add("quiz-answer-btn");
-    buttonElement.textContent += `${data[choiceIndex].choice[i]}`;
-    divElement.appendChild(buttonElement);
-  }
-  onSelectAnswer();
-};
-
-const getAnswerFromData = (answerIndexParam) => {
-  const answerIndex = answerIndexParam;
-  return data[answerIndex].answer;
 };
 
 // first call of Cards

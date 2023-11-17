@@ -1,6 +1,6 @@
 # Quiz
 
-In this project, you can find movies. You can search for movies either by title or by release year. The respective movies will then be displayed. Additionally, there are different filters that can be used to filter movies. Moreover, new movies can be added, and ones that are no longer available can be deleted from the database.
+Dieses Quiz ist ähnlich wie die deutsche Quiz Show aufgebaut. Es wird ein Bild angezeigt, mit einer dazugehörigen Frage und einigen Antwortmöglichkeiten. Es kann nur ein der Möglichkeiten gewählt werden. Ist die gewählte Antwort richtig, wird diese in grüner Farge hervorgehoben. wenn die gewählte Antwort falsch ist, wird diese in roter Farbe hervorgehoben. Es gibt keinen weiteren Versuch, die weiteren Möglichkeiten können zwar angecklickt werden, sind dann aber ohne Funktion. Nach der Auswahl gleitet die die gesamte Quiz Frage nach links heraus und von rechts erscheint dann die nächste Quiz Frage. Jede dieser Quiz Fragen wird pro gesamtem Spiel immer nur einmal angezeigt. Sind alle Fragen beantwortet kommt eine Nachricht mit der richtig beantworteten Punkte Anzahl.
 
 ## Table of Contents
 
@@ -40,10 +40,10 @@ In this project, you can find movies. You can search for movies either by title 
 
 ### Links
 
-- Solution URL: [index.html](https://github.com/wilhelm-lenz/movie-database/blob/main/index.html)
-- Solution URL: [style.css](https://github.com/wilhelm-lenz/movie-database/blob/main/assets/css/style.css)
-- Solution URL: [main.js](https://github.com/wilhelm-lenz/movie-database/blob/main/assets/js/main.js)
-- Live Page URL: [Movie Database Live](https://wilhelm-lenz.github.io/movie-database/)
+- Solution URL: [index.html](https://github.com/wilhelm-lenz/quiz/blob/main/index.html)
+- Solution URL: [style.css](https://github.com/wilhelm-lenz/quiz/blob/main/assets/css/style.css)
+- Solution URL: [main.js](https://github.com/wilhelm-lenz/quiz/blob/main/assets/js/main.js)
+- Live Page URL: [Quiz Live](https://wilhelm-lenz.github.io/quiz/)
 
 ## My Process
 
